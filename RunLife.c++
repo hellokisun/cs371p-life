@@ -29,6 +29,14 @@ To document the program:
 #include <cassert>   // assert
 #include <iostream>  // cout, endl
 #include <stdexcept> // invalid_argument, out_of_range
+#include <fstream>
+#include <iostream>
+
+#include "Life.h"
+#include "AbstractCell.h"
+#include "ConwayCell.h"
+
+
 
 // ----
 // main
@@ -44,6 +52,25 @@ int main () {
 
     try {
         cout << "*** Life<ConwayCell> 109x69 ***" << endl;
+
+        int x, y;
+
+        ifstream infile;
+        infile.open("RunLifeConway.in");
+        cout << "opened file" << endl;
+        infile >> y >> x;
+        cout << "got x and y. x = " << x << ", y = " << y << endl;
+        Life<ConwayCell> life1 (x, y, ConwayCell(false));
+        cout << "made life1" << endl;
+
+        life1.populate(infile);
+
+        cout << "populated life1" << endl;
+        infile.close();
+        cout << "closed infile" << endl;
+
+        life1.print();
+
         /*
         read RunLifeConway.in // assume all Conway cells
         Simulate 283 moves.
@@ -66,6 +93,7 @@ int main () {
 
     try {
         cout << "*** Life<FredkinCell> 20x20 ***" << endl;
+
         /*
         read RunLifeFredkin.in // assume all Fredkin cells
         Simulate 5 moves.
