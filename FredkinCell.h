@@ -5,22 +5,25 @@
 
 class FredkinCell : public AbstractCell {
 	private:
+		int age;
 
 	protected:
 		virtual bool equals (const AbstractCell& that) const {
-			return (isAlive() == that.isAlive() && getSymbol() == that.getSymbol());
+			return (isAlive() == that.isAlive());
 		}
 
 		virtual std::istream& read (std::istream& in) {
 			return AbstractCell::read(in);
 		}
 
-		virtual std::ostream& write (std::ostream& out) const {
-			return AbstractCell::write(out);
-		}
+		// virtual std::ostream& write (std::ostream& out) const {
+		// 	return AbstractCell::write(out);
+		// }
 
 	public:
-		FredkinCell(bool a) : AbstractCell(a){}
+		FredkinCell(bool a) : AbstractCell(a){
+			age = 0;
+		}
 
 		virtual FredkinCell* clone() const {
 			//write this method
@@ -31,9 +34,9 @@ class FredkinCell : public AbstractCell {
 			return AbstractCell::isAlive();
 		}
 
-		virtual char getSymbol() const {
-			return AbstractCell::getSymbol();
-		}
+		// virtual char getSymbol() const {
+		// 	return AbstractCell::getSymbol();
+		// }
 
 		virtual bool want_to_mutate() const {
 			//write this method

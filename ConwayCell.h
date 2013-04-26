@@ -8,16 +8,16 @@ class ConwayCell : public AbstractCell {
 
 	protected:
 		virtual bool equals (const AbstractCell& that) const {
-			return (AbstractCell::isAlive() == that.isAlive() && AbstractCell::getSymbol() == that.getSymbol());
+			return (isAlive() == that.isAlive());
 		}
 
 		virtual std::istream& read (std::istream& in) {
 			return AbstractCell::read(in);
 		}
 
-		virtual std::ostream& write (std::ostream& out) const {
-			return AbstractCell::write(out);
-		}
+		// virtual std::ostream& write (std::ostream& out) const {
+		// 	return AbstractCell::write(out);
+		// }
 
 	public:
 		ConwayCell(bool a) : AbstractCell(a){}
@@ -27,25 +27,37 @@ class ConwayCell : public AbstractCell {
 			return new ConwayCell(*this);
 		}
 
-		// virtual bool isAlive() const {
-		// 	return AbstractCell::isAlive();
-		// }
+		virtual bool isAlive() const {
+			return AbstractCell::isAlive();
+		}
 
 		// virtual char getSymbol() const {
 		// 	return AbstractCell::getSymbol();
 		// }
 
-		virtual bool want_to_mutate() const {
-			//write this method
-			return false;
-		}
+		// virtual bool want_to_mutate() const {
+		// 	return AbstractCell::want_to_mutate();
+		// }
 
 		virtual void mutate() {
-			//write this method
+			AbstractCell::change();
 		}
 
-		virtual void update() {
+		virtual void update(int n) {
 			//write this method
+			if(isAlive()) {
+				if(n < 2 || n > 3)
+					AbstractCell::update(true);
+				else
+					AbstractCell::update(false);
+
+			}
+			else {
+				if(n == 3)
+					AbstractCell::update(true);
+				else
+					AbstractCell::update(false);
+			}
 		}
 };
 

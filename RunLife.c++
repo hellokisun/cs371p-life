@@ -57,20 +57,20 @@ int main () {
 
         ifstream infile;
         infile.open("RunLifeConway.in");
-        cout << "opened file" << endl;
         infile >> y >> x;
-        cout << "got x and y. x = " << x << ", y = " << y << endl;
         Life<ConwayCell> life1 (x, y, ConwayCell(false));
-        cout << "made life1" << endl;
 
         life1.populate(infile);
 
-        cout << "populated life1" << endl;
         infile.close();
-        cout << "closed infile" << endl;
 
         life1.print();
-
+        life1.simulate();
+        life1.print();
+        life1.simulate();
+        life1.print();
+        life1.simulate();
+        life1.print();
         /*
         read RunLifeConway.in // assume all Conway cells
         Simulate 283 moves.

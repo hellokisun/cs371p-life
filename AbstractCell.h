@@ -13,9 +13,9 @@ class AbstractCell {
 		return !(lhs == rhs);
 	}
 
-	friend std::ostream& operator << (std::ostream& lhs, const AbstractCell& rhs) {
-		return rhs.write(lhs);
-	}
+	// friend std::ostream& operator << (std::ostream& lhs, const AbstractCell& rhs) {
+	// 	return rhs.write(lhs);
+	// }
 
 	friend std::istream& operator >> (std::istream& lhs, AbstractCell& rhs) {
 		return rhs.read(lhs);
@@ -23,12 +23,13 @@ class AbstractCell {
 
 	private:
 		bool alive;
-		char symbol;
+		bool toMutate;
+		// char symbol;
 
 	protected:
 		AbstractCell& operator = (const AbstractCell& that) {
 			alive = that.isAlive();
-			symbol = that.symbol;
+			// symbol = that.symbol;
 			return *this;
 		}
 
@@ -36,18 +37,19 @@ class AbstractCell {
 
 		virtual std::istream& read (std::istream& in) = 0;
 
-		virtual std::ostream& write (std::ostream& out) const = 0;
+		// virtual std::ostream& write (std::ostream& out) const = 0;
 
 	public:
 		//constructor
-		AbstractCell() {}
+		// AbstractCell() {}
 
 		AbstractCell(bool a) {
+			toMutate = false;
 			alive = a;
-			if(a)
-				symbol = '*';
-			else
-				symbol = '.';
+			// if(a)
+			// 	symbol = '*';
+			// else
+			// 	symbol = '.';
 		}
 
 		virtual ~AbstractCell() {}
@@ -56,17 +58,26 @@ class AbstractCell {
 			return alive;
 		}
 
-		virtual char getSymbol() const {
-			return symbol;
-		}
+		// virtual char getSymbol() const {
+		// 	return symbol;
+		// }
 
 		virtual AbstractCell* clone() const = 0;
 
-		virtual bool want_to_mutate() const = 0;
+		virtual void change() {
+			alive = !alive;
+		}
+
+		virtual bool want_to_mutate() const{
+			return toMutate;
+		}
 
 		virtual void mutate() = 0;
 
-		virtual void update() = 0;
+		//n = number of alive neighbors
+		virtual void update(bool n) {
+			toMutate = n;
+		}
 
 
 
