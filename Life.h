@@ -54,42 +54,73 @@ class Life {
 			++gen;
 			int tc;
 			// cout << typeid(_c[1][1]).name() << endl;
-			for(int i = 1; i < _y-1; ++i) {
 
-				for(int j = 1; j < _x-1; ++j) {
-					tc = 0;
-					//check neighbors
-					if(_c[i-1][j-1].isAlive())
-						++tc;
-					if(_c[i-1][j].isAlive())
-						++tc;
-					if(_c[i-1][j+1].isAlive())
-						++tc;
-					if(_c[i][j-1].isAlive())
-						++tc;
-					if(_c[i][j+1].isAlive())
-						++tc;
-					if(_c[i+1][j-1].isAlive())
-						++tc;
-					if(_c[i+1][j].isAlive())
-						++tc;
-					if(_c[i+1][j+1].isAlive())
-						++tc;
+			//TODO make this work for both Conway and Fredkin
 
-					//update toMutate
-					_c[i][j].update(tc);
-					// if(tc > 0)
-					// 	cout << "(" << j << ", " << i << ") : tc=" << tc << "; mutate? " << _c[i][j].want_to_mutate() << endl;
+			//for ConwayCell
+			// if (const T* const p = dynamic_cast<const ConwayCell*>(&_c[0][0])) {
+			if(typeid(T) == typeid(ConwayCell)) {
+				for(int i = 1; i < _y-1; ++i) {
+					for(int j = 1; j < _x-1; ++j) {
+						tc = 0;
+						//check neighbors
+						if(_c[i-1][j-1].isAlive())
+							++tc;
+						if(_c[i-1][j].isAlive())
+							++tc;
+						if(_c[i-1][j+1].isAlive())
+							++tc;
+						if(_c[i][j-1].isAlive())
+							++tc;
+						if(_c[i][j+1].isAlive())
+							++tc;
+						if(_c[i+1][j-1].isAlive())
+							++tc;
+						if(_c[i+1][j].isAlive())
+							++tc;
+						if(_c[i+1][j+1].isAlive())
+							++tc;
 
+						//update toMutate
+						_c[i][j].update(tc);
+						// if(tc > 0)
+						// 	cout << "(" << j << ", " << i << ") : tc=" << tc << "; mutate? " << _c[i][j].want_to_mutate() << endl;	
+					}
 				}
-
 			}
+
+			// for FredkinCell
+			else if(typeid(T) == typeid(FredkinCell)) {
+				for(int i = 1; i < _y-1; ++i) {
+					for(int j = 1; j < _x-1; ++j) {
+						tc = 0;
+						//do stuff
+						if(_c[i-1][j].isAlive())
+							++tc;
+						if(_c[i][j-1].isAlive())
+							++tc;
+						if(_c[i][j+1].isAlive())
+							++tc;
+						if(_c[i+1][j].isAlive())
+							++tc;
+
+						_c[i][j].update(tc);
+					}
+				}
+			}
+
+			//for Cell
+
+
 
 			//mutate
 			for(int i = 1; i < _y-1; ++i) {
 				for(int j = 1; j < _x-1; ++j) {
-					if(_c[i][j].want_to_mutate())
-						_c[i][j].mutate();
+					if(_c[i][j].want_to_mutate()) {
+						if(_c[i][j].change())
+							++_p;
+						else --_p;
+					}
 				}
 			}
 		}
@@ -97,22 +128,12 @@ class Life {
 		//prints the board
 		void print() {
 			//print generation & population
-			//Generation = 0, Population = 35.
 			assert(_p >= 0);
 			cout << "Generation = " << gen << ", Population = " << _p << "." << endl;
 
 			for(int i = 1; i < _y-1; ++i) {
 				for(int j = 1; j < _x-1; ++j) {
-					//print symbols
-					//TODO change this from getSymbol (get rid of the getter method) and into something like print() 
-					//to print directly to cout. also consider getting rid of the symbol variable and making print()
-					//decide what the symbol to be printed will be (for conway, dead = '.' and alive = '*', no need
-					//to keep the extra variable that is unnecessary. for fredkin, it should be the same concept since
-					//there will be a separate variable for age).
-					if(_c[i][j].isAlive())
-						cout << _c[i][j];
-					else
-						cout << '.';
+					cout << _c[i][j];
 				}
 				cout << endl;
 			}

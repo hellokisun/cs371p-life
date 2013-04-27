@@ -65,11 +65,14 @@ int main () {
         infile.close();
 
         life1.print();
-        life1.simulate();
+        for(int i = 0; i < 283; ++i)        
+            life1.simulate();
         life1.print();
-        life1.simulate();
+        for(int i = 0; i < 40; ++i) 
+            life1.simulate();
         life1.print();
-        life1.simulate();
+        for(int i = 0; i < 2177; ++i)
+            life1.simulate();
         life1.print();
         /*
         read RunLifeConway.in // assume all Conway cells
@@ -93,6 +96,23 @@ int main () {
 
     try {
         cout << "*** Life<FredkinCell> 20x20 ***" << endl;
+
+        int x, y;
+
+        ifstream infile;
+        infile.open("RunLifeFredkin.in");
+        infile >> y >> x;
+        Life<FredkinCell> life2 (x, y, FredkinCell(false));
+
+        life2.populate(infile);
+
+        infile.close();
+
+        life2.print();
+        for(int i = 0; i < 5; ++i) {
+            life2.simulate();
+            life2.print();
+        }
 
         /*
         read RunLifeFredkin.in // assume all Fredkin cells

@@ -16,9 +16,16 @@ class FredkinCell : public AbstractCell {
 			return AbstractCell::read(in);
 		}
 
-		// virtual std::ostream& write (std::ostream& out) const {
-		// 	return AbstractCell::write(out);
-		// }
+		virtual std::ostream& write (std::ostream& out) const {
+			if(isAlive()) {
+				if(age >= 10)
+					return out << '+';
+				else
+					return out << age;
+			}
+			else
+				return out << '-';
+		}
 
 	public:
 		FredkinCell(bool a) : AbstractCell(a){
@@ -26,29 +33,37 @@ class FredkinCell : public AbstractCell {
 		}
 
 		virtual FredkinCell* clone() const {
-			//write this method
+			//TODO write this method
 			return new FredkinCell(*this);
 		}
 
-		virtual bool isAlive() const {
-			return AbstractCell::isAlive();
-		}
-
-		// virtual char getSymbol() const {
-		// 	return AbstractCell::getSymbol();
+		// virtual bool isAlive() const {
+		// 	return AbstractCell::isAlive();
 		// }
-
-		virtual bool want_to_mutate() const {
-			//write this method
-			return false;
-		}
 
 		virtual void mutate() {
 			//write this method
+			AbstractCell::change();
 		}
 
-		virtual void update() {
+		virtual void update(int n) {
 			//write this method
+			//if alive, then increment age
+			if(isAlive()) {
+				if(n % 2) {
+					AbstractCell::update(false);
+					++age;
+				}
+				else
+					AbstractCell::update(true);
+
+			}
+			else {
+				if(n % 2)
+					AbstractCell::update(true);
+				else
+					AbstractCell::update(false);
+			}
 		}
 };
 

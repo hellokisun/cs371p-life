@@ -15,28 +15,23 @@ class ConwayCell : public AbstractCell {
 			return AbstractCell::read(in);
 		}
 
-		// virtual std::ostream& write (std::ostream& out) const {
-		// 	return AbstractCell::write(out);
-		// }
+		virtual std::ostream& write (std::ostream& out) const {
+			if(isAlive())
+				return out << '*';
+			else
+				return out << '.';
+		}
 
 	public:
 		ConwayCell(bool a) : AbstractCell(a){}
 
 		virtual ConwayCell* clone() const {
-			//write this method
+			//TODO write this method
 			return new ConwayCell(*this);
 		}
 
-		virtual bool isAlive() const {
-			return AbstractCell::isAlive();
-		}
-
-		// virtual char getSymbol() const {
-		// 	return AbstractCell::getSymbol();
-		// }
-
-		// virtual bool want_to_mutate() const {
-		// 	return AbstractCell::want_to_mutate();
+		// virtual bool isAlive() const {
+		// 	return AbstractCell::isAlive();
 		// }
 
 		virtual void mutate() {
@@ -44,7 +39,6 @@ class ConwayCell : public AbstractCell {
 		}
 
 		virtual void update(int n) {
-			//write this method
 			if(isAlive()) {
 				if(n < 2 || n > 3)
 					AbstractCell::update(true);
