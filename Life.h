@@ -29,7 +29,11 @@ class Life {
 				gen = 0;
 				_x = x+2;
 				_y = y+2;
-				_p = 0;
+				if(cell.isAlive())
+					_p = x*y;
+				else
+					_p = 0;
+
 		}
 
 		void populate (ifstream& infile) {
@@ -42,6 +46,11 @@ class Life {
 					}
 				}
 			}
+		}
+
+		void setCell(int x, int y) {
+			++_p;
+			_c[y+1][x+1].change();
 		}
 
 		//simulates one turn
@@ -84,7 +93,7 @@ class Life {
 						//update toMutate
 						_c[i][j].update(tc);
 						// if(tc > 0)
-						// 	cout << "(" << j << ", " << i << ") : tc=" << tc << "; mutate? " << _c[i][j].want_to_mutate() << endl;	
+						// 	cout << "(" << j << ", " << i << ") : tc=" << tc << "; mutate? " << _c[i][j].flagged() << endl;	
 					}
 				}
 			}
@@ -110,13 +119,44 @@ class Life {
 			}
 
 			//for Cell
+			else if(typeid(T) == typeid(Cell)) {
 
+				//do CELL STUFF
 
+				for(int i = 1; i < _y-1; ++i) {
+					for(int j = 1; j < _x-1; ++j) {
+						tc = 0;
+						//do stuff
+						if(_c[i-1][j].isAlive())
+							++tc;
+						if(_c[i][j-1].isAlive())
+							++tc;
+						if(_c[i][j+1].isAlive())
+							++tc;
+						if(_c[i+1][j].isAlive())
+							++tc;
+						//do stuff if the cell is ConwayCell
+						if(_c[i][j].code()) {
+							if(_c[i-1][j-1].isAlive())
+								++tc;
+							if(_c[i-1][j+1].isAlive())
+								++tc;
+							if(_c[i+1][j-1].isAlive())
+								++tc;
+							if(_c[i+1][j+1].isAlive())
+								++tc;
+						}
+
+						_c[i][j].update(tc);
+					}
+				}
+
+			}
 
 			//mutate
 			for(int i = 1; i < _y-1; ++i) {
 				for(int j = 1; j < _x-1; ++j) {
-					if(_c[i][j].want_to_mutate()) {
+					if(_c[i][j].flagged()) {
 						if(_c[i][j].change())
 							++_p;
 						else --_p;

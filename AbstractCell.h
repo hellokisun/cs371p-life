@@ -5,13 +5,13 @@
 
 
 class AbstractCell { 
-	friend bool operator == (const AbstractCell &lhs, const AbstractCell &rhs) {
-		return lhs.equals(rhs);
-	}
+	// friend bool operator == (const AbstractCell &lhs, const AbstractCell &rhs) {
+	// 	return lhs.equals(rhs);
+	// }
 
-	friend bool operator != (const AbstractCell &lhs, const AbstractCell &rhs) {
-		return !(lhs == rhs);
-	}
+	// friend bool operator != (const AbstractCell &lhs, const AbstractCell &rhs) {
+	// 	return !(lhs == rhs);
+	// }
 
 	friend std::ostream& operator << (std::ostream& lhs, const AbstractCell& rhs) {
 		return rhs.write(lhs);
@@ -30,7 +30,7 @@ class AbstractCell {
 			return *this;
 		}
 
-		virtual bool equals (const AbstractCell& that) const = 0;
+		// virtual bool equals (const AbstractCell& that) const = 0;
 
 		virtual std::istream& read (std::istream& in) = 0;
 
@@ -47,33 +47,24 @@ class AbstractCell {
 
 		virtual ~AbstractCell() {}
 
-		virtual bool isAlive() const {
-			return alive;
-		}
+		virtual bool isAlive() const;
 
 		virtual AbstractCell* clone() const = 0;
 
 		//returns 	true if dead -> alive
 		//			false if alive -> dead
-		virtual bool change() {
-			alive = !alive;
-			if(alive) return true;
-			else return false;
-		}
+		virtual bool change();
 
-		virtual bool want_to_mutate() const{
-			return flag;
-		}
+		virtual bool flagged() const;
 
-		virtual void mutate() = 0;
+		virtual bool mutate() = 0;
 
 		//n = number of alive neighbors
-		virtual void update(bool n) {
-			flag = n;
-		}
+		virtual void setFlag(bool n);
 
+		virtual bool update(int n);
 
-
+		virtual int code() = 0;
 };
 
 #endif

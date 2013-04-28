@@ -8,12 +8,15 @@ class FredkinCell : public AbstractCell {
 		int age;
 
 	protected:
-		virtual bool equals (const AbstractCell& that) const {
-			return (isAlive() == that.isAlive());
-		}
+		// virtual bool equals (const AbstractCell& that) const {
+		// 	return (isAlive() == that.isAlive());
+		// }
 
 		virtual std::istream& read (std::istream& in) {
-			return AbstractCell::read(in);
+			char c;
+			in >> c;
+			if(c != '-') change();
+			return in;
 		}
 
 		virtual std::ostream& write (std::ostream& out) const {
@@ -32,39 +35,13 @@ class FredkinCell : public AbstractCell {
 			age = 0;
 		}
 
-		virtual FredkinCell* clone() const {
-			//TODO write this method
-			return new FredkinCell(*this);
-		}
+		virtual FredkinCell* clone() const;
 
-		// virtual bool isAlive() const {
-		// 	return AbstractCell::isAlive();
-		// }
+		virtual bool mutate();
 
-		virtual void mutate() {
-			//write this method
-			AbstractCell::change();
-		}
+		virtual bool update(int n);
 
-		virtual void update(int n) {
-			//write this method
-			//if alive, then increment age
-			if(isAlive()) {
-				if(n % 2) {
-					AbstractCell::update(false);
-					++age;
-				}
-				else
-					AbstractCell::update(true);
-
-			}
-			else {
-				if(n % 2)
-					AbstractCell::update(true);
-				else
-					AbstractCell::update(false);
-			}
-		}
+		int code();
 };
 
 #endif

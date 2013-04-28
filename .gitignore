@@ -11,7 +11,5 @@
 *.lai
 *.la
 *.a
-
-# custom files
 *.exe
 *.tmp

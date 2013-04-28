@@ -7,12 +7,15 @@ class ConwayCell : public AbstractCell {
 	private:
 
 	protected:
-		virtual bool equals (const AbstractCell& that) const {
-			return (isAlive() == that.isAlive());
-		}
+		// virtual bool equals (const AbstractCell& that) const {
+		// 	return (isAlive() == that.isAlive());
+		// }
 
 		virtual std::istream& read (std::istream& in) {
-			return AbstractCell::read(in);
+			char c;
+			in >> c;
+			if(c != '.') change();
+			return in;
 		}
 
 		virtual std::ostream& write (std::ostream& out) const {
@@ -25,34 +28,13 @@ class ConwayCell : public AbstractCell {
 	public:
 		ConwayCell(bool a) : AbstractCell(a){}
 
-		virtual ConwayCell* clone() const {
-			//TODO write this method
-			return new ConwayCell(*this);
-		}
+		virtual ConwayCell* clone() const;
 
-		// virtual bool isAlive() const {
-		// 	return AbstractCell::isAlive();
-		// }
+		virtual bool mutate();
 
-		virtual void mutate() {
-			AbstractCell::change();
-		}
+		virtual bool update(int n);
 
-		virtual void update(int n) {
-			if(isAlive()) {
-				if(n < 2 || n > 3)
-					AbstractCell::update(true);
-				else
-					AbstractCell::update(false);
-
-			}
-			else {
-				if(n == 3)
-					AbstractCell::update(true);
-				else
-					AbstractCell::update(false);
-			}
-		}
+		int code();
 };
 
 #endif
