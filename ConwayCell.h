@@ -7,10 +7,6 @@ class ConwayCell : public AbstractCell {
 	private:
 
 	protected:
-		// virtual bool equals (const AbstractCell& that) const {
-		// 	return (isAlive() == that.isAlive());
-		// }
-
 		virtual std::istream& read (std::istream& in) {
 			char c;
 			in >> c;

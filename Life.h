@@ -1,3 +1,9 @@
+/**
+
+
+*/
+
+
 #ifndef Life_h
 #define Life_h
 
@@ -12,6 +18,26 @@
 #include "Cell.h"
 
 using namespace std;
+
+
+/*
+Simulates the game of Life on a two dimensional grid. There are two types of cells:
+	ConwayCell	- 	This cell is either alive or dead, represented by '*' or '.', respectively.
+					It has 8 neighbors (all adjacent cells, including diagonal).
+	FredkinCell	- 	This cell is either alive or dead, but also keeps count of how long it
+					has been alive for. It is represented by its age (0, 1, ... 9). If its
+					age is over 9, then it is represented by '+'. Dead cells are represented
+					with a '-'. It has 4 neighbors (no diagonal adjacency).
+These two types of cells can change their state (alive to dead and vice versa) every "generation"
+(turn). 
+For ConwayCells,	
+		a dead cell becomes a live cell, if exactly 3 neighbors are alive
+		a live cell becomes a dead cell, if less than 2 or more than 3 neighbors are alive
+For FredkinCells,
+		a dead cell becomes a live cell, if 1 or 3 neighbors are alive
+		a live cell becomes a dead cell, if 0, 2, or 4 neighbors are alive
+(Taken from project specs page)
+*/
 
 template <class T>
 class Life {
@@ -36,13 +62,14 @@ class Life {
 
 		}
 
+		//populates the game. 
+		//@param infile the input files if the user chooses to use a file to populate the board.
 		void populate (ifstream& infile) {
 			for(int i = 1; i < _y-1; ++i) {
 				for(int j = 1; j < _x-1; ++j) {
 					infile >> _c[i][j];
 					if(_c[i][j].isAlive()) {
 						++_p;
-						// _c[i][j].change();
 					}
 				}
 			}
@@ -57,17 +84,13 @@ class Life {
 		void simulate () {
 			//look at all cells (for now)
 			//see if they need to mutate/die/come alive
-			//mark toMutate if they need to change
-			//after going through everything, go through once again and mutate those marked with toMutate
+			//mark flag if they need to change
+			//after going through everything, go through once again and change the state of those marked with flag
 
 			++gen;
 			int tc;
-			// cout << typeid(_c[1][1]).name() << endl;
-
-			//TODO make this work for both Conway and Fredkin
 
 			//for ConwayCell
-			// if (const T* const p = dynamic_cast<const ConwayCell*>(&_c[0][0])) {
 			if(typeid(T) == typeid(ConwayCell)) {
 				for(int i = 1; i < _y-1; ++i) {
 					for(int j = 1; j < _x-1; ++j) {
@@ -92,8 +115,6 @@ class Life {
 
 						//update toMutate
 						_c[i][j].update(tc);
-						// if(tc > 0)
-						// 	cout << "(" << j << ", " << i << ") : tc=" << tc << "; mutate? " << _c[i][j].flagged() << endl;	
 					}
 				}
 			}
@@ -120,9 +141,6 @@ class Life {
 
 			//for Cell
 			else if(typeid(T) == typeid(Cell)) {
-
-				//do CELL STUFF
-
 				for(int i = 1; i < _y-1; ++i) {
 					for(int j = 1; j < _x-1; ++j) {
 						tc = 0;
@@ -168,7 +186,7 @@ class Life {
 		//prints the board
 		void print() {
 			//print generation & population
-			assert(_p >= 0);
+			// assert(_p >= 0);
 			cout << "Generation = " << gen << ", Population = " << _p << "." << endl;
 
 			for(int i = 1; i < _y-1; ++i) {
@@ -177,7 +195,6 @@ class Life {
 				}
 				cout << endl;
 			}
-
 			cout << endl;
 		}
 };

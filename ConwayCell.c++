@@ -1,7 +1,6 @@
 #include "ConwayCell.h"
 
 ConwayCell* ConwayCell::clone() const {
-	//TODO write this method
 	return new ConwayCell(isAlive());
 }
 

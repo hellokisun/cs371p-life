@@ -5,13 +5,6 @@
 
 
 class AbstractCell { 
-	// friend bool operator == (const AbstractCell &lhs, const AbstractCell &rhs) {
-	// 	return lhs.equals(rhs);
-	// }
-
-	// friend bool operator != (const AbstractCell &lhs, const AbstractCell &rhs) {
-	// 	return !(lhs == rhs);
-	// }
 
 	friend std::ostream& operator << (std::ostream& lhs, const AbstractCell& rhs) {
 		return rhs.write(lhs);
@@ -30,16 +23,12 @@ class AbstractCell {
 			return *this;
 		}
 
-		// virtual bool equals (const AbstractCell& that) const = 0;
-
 		virtual std::istream& read (std::istream& in) = 0;
 
 		virtual std::ostream& write (std::ostream& out) const = 0;
 
 	public:
 		//constructor
-		// AbstractCell() {}
-
 		AbstractCell(bool a) {
 			flag = false;
 			alive = a;

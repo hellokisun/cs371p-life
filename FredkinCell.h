@@ -8,10 +8,6 @@ class FredkinCell : public AbstractCell {
 		int age;
 
 	protected:
-		// virtual bool equals (const AbstractCell& that) const {
-		// 	return (isAlive() == that.isAlive());
-		// }
-
 		virtual std::istream& read (std::istream& in) {
 			char c;
 			in >> c;

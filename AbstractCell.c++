@@ -1,17 +1,6 @@
 #include "AbstractCell.h"
 #include <iostream>
 
-
-// bool AbstractCell::equals (const AbstractCell& that) const {
-//     return alive == that.alive;}
-
-// std::istream& AbstractCell::read (std::istream& in) {
-//     return in;}
-
-// std::ostream& AbstractCell::write (std::ostream& out) const {
-//     return out << symbol;}
-
-
 bool AbstractCell::isAlive() const {
 	return alive;
 }

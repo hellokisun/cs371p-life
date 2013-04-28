@@ -44,8 +44,6 @@ class Cell : public Handle<AbstractCell> {
 		}
 
 		virtual void update(int n) {
-			// std::cout << "Cell::update()" << std::endl;
-			// std::cout << typeid(get()).name() << std::endl;
 			if(get()->update(n))
 				mutate();
 		}
